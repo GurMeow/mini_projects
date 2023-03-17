@@ -1,0 +1,107 @@
+import tkinter as tk
+import math
+
+
+def run_problem():
+    global math_problem, action_entered, sqrt_action_entered
+    answer = ''
+    if math_problem[0:6:] == 'sqrt: ':
+        answer = math.sqrt(eval(math_problem[6::]))
+        answer = int(answer)
+    else:
+        answer = eval(math_problem)
+    math_problem_line.config(text=answer)
+    math_problem = ''
+    action_entered = True
+    sqrt_action_entered = False
+
+
+def add_number(num):
+    global math_problem, action_entered
+    math_problem += str(num+1)
+    math_problem_line.config(text=math_problem)
+    action_entered = False
+
+
+def clear_problem():
+    global math_problem
+    math_problem = ''
+    math_problem_line.config(text='')
+
+
+def remove_last_digit():
+    global math_problem
+    math_problem = math_problem[:-1:]
+    math_problem_line.config(text=math_problem)
+
+
+def add_action(action):
+    global math_problem, action_entered, sqrt_action_entered
+    if not action_entered:
+        if action != 'sqrt':
+            math_problem += ' '+action+' '
+            math_problem_line.config(text=math_problem)
+            action_entered = True
+        elif not sqrt_action_entered and action == 'sqrt':
+            math_problem = 'sqrt: '+math_problem
+            sqrt_action_entered = True
+            math_problem_line.config(text=math_problem)
+
+
+root = tk.Tk()
+root.title("calculator")
+root.geometry("700x550")
+
+math_problem_line = tk.Label(text="", height=1, font=40, width=10, anchor='e')
+math_problem_line.grid(row=0, column=2)
+
+buttons = []
+
+math_problem = ''
+
+action_entered = True
+sqrt_action_entered = False
+
+for i in range(9):
+    button = tk.Button(root, text=i+1, width=14, height=7, command=lambda index=i: add_number(index))
+    buttons.append(button)
+
+for i in range(3):
+    for j in range(3):
+        button_index = i*3 + j
+        buttons[button_index].grid(row=i+1, column=j, padx=10, pady=10)
+
+buttons.append(tk.Button(root, text=0, width=14, height=7, command=lambda index=0: add_number(index)))
+buttons[9].grid(row=4, column=1)
+
+remove_all_problem_button = tk.Button(root, text='C', width=14, height=7, command=clear_problem)
+remove_all_problem_button.grid(row=4, column=0)
+
+remove_last_digit_in_problem_button = tk.Button(root, text='<X', width=14, height=7, command=remove_last_digit)
+remove_last_digit_in_problem_button.grid(row=4, column=2)
+
+plus_button = tk.Button(text="+", width=14, height=7, command=lambda: add_action('+'))
+plus_button.grid(row=1, column=3, padx=10, pady=10)
+
+minus_button = tk.Button(text="-", width=14, height=7, command=lambda: add_action('-'))
+minus_button.grid(row=2, column=3, padx=10, pady=10)
+
+multiply_button = tk.Button(text="*", width=14, height=7, command=lambda: add_action('*'))
+multiply_button.grid(row=3, column=3, padx=10, pady=10)
+
+division_button = tk.Button(text="/", width=14, height=7, command=lambda: add_action('/'))
+division_button.grid(row=4, column=3, padx=10, pady=10)
+
+power_button = tk.Button(text="**", width=14, height=7, command=lambda: add_action('**'))
+power_button.grid(row=3, column=5, padx=10, pady=10)
+
+sqrt_button = tk.Button(text="sqrt", width=14, height=7, command=lambda: add_action('sqrt'))
+sqrt_button.grid(row=1, column=5, padx=10, pady=10)
+
+int_division_button = tk.Button(text="//", width=14, height=7, command=lambda: add_action('//'))
+int_division_button.grid(row=2, column=5, padx=10, pady=10)
+
+run_problem = tk.Button(text="Run", width=14, height=7, command=run_problem)
+run_problem.grid(row=4, column=5, padx=10, pady=10)
+
+root.mainloop()
