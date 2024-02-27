@@ -23,8 +23,8 @@ function update(region, city)
     // Extract hours, minutes, and seconds and store them in an array
     const [hours, minutes, seconds] = formattedTime.split(':').map(num => parseInt(num));
     const timeArray = [hours, minutes, seconds];
-
-    console.log(timeArray);
+    timeArray[0]+=2;
+    timeArray[0] = timeArray[0] % 12;
 
     return timeArray;
 }
