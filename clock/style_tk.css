@@ -1,0 +1,57 @@
+#clockContainer_tk {
+	position: relative;
+    bottom: 1200px;
+    left: 630px;
+	margin: auto;
+	height: 30vw;
+	/*to make the height and width responsive*/
+	width: 30vw;
+	/*setting our background image*/
+	background-size: 100%;
+}
+
+#hour_tk,
+#minute_tk,
+#second_tk {
+	position: absolute;
+	background: black;
+	border-radius: 10px;
+	transform-origin: bottom;
+}
+
+#hour_tk {
+	width: 1.8%;
+	height: 8%;
+	top: 42%;
+	left: 48.85%;
+	opacity: 0.8;
+}
+
+#minute_tk {
+	width: 1.6%;
+	height: 15%;
+	top: 35%;
+	left: 48.9%;
+	opacity: 0.8;
+}
+
+#second_tk {
+	width: 1%;
+	height: 20%;
+	top: 30%;
+	left: 49.25%;
+	opacity: 0.8;
+}
+
+#png_tk {
+    width: 100%;
+    height: 100%;
+    transform-origin: center;
+    position: absolute;
+}
+
+#text_tk {
+    position: relative;
+    top: 600px;
+    left: 180px;
+}
