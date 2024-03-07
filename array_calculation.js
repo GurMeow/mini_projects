@@ -41,8 +41,33 @@ function equation_sum(equation, search_for)
                 copy_eq = copy_eq.slice(0, i-1).concat(copy_eq.slice(i));
                 return [copy_eq, true, search_for];
             }
+            if (search_for === "brackets" && typeof(equation[i]) === "object")
+            {
+                let copy_eq_2 = copy_eq[i];
+                let search_for_2 = "brackets";
+                while (true)
+                {
+                    result = equation_sum(copy_eq_2, search_for_2);
+                    search_for_2 = result[2];
+                    if (result[1] === true)
+                    {
+                        copy_eq_2 = result[0];
+                    }
+                    else if (search_for_2 === "stop")
+                    {
+                        break;
+                    }
+                }
+                copy_eq[i] = Number(copy_eq_2);
+                copy_eq = copy_eq.slice(0, i+1).concat(copy_eq.slice(i+2));
+                copy_eq = copy_eq.slice(0, i-1).concat(copy_eq.slice(i));
+            }
         }
 
+        if (search_for === "brackets")
+        {
+            return [copy_eq, false, "power"];
+        }
         if (search_for === "power")
         {
             return [copy_eq, false, "stage 2"];
@@ -51,7 +76,6 @@ function equation_sum(equation, search_for)
         {
             return [copy_eq, false, "stage 1"];
         }
-
         if (search_for === "stage 1")
         {
             return [copy_eq, false, "stop"];
@@ -59,9 +83,9 @@ function equation_sum(equation, search_for)
     }
 }
 
-let equation = [4, "^", 2, "+", 3, "*", 2];
+let equation = [4, "*", [2, "+", 2]];
 
-search_for = "power";
+let search_for = "brackets";
 
 while (true)
 {
