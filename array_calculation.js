@@ -34,8 +34,19 @@ function equation_sum(equation, search_for)
                 copy_eq = copy_eq.slice(0, i-1).concat(copy_eq.slice(i));
                 return [copy_eq, true, search_for];
             }
+            if (search_for === "power" && equation[i] == "^")
+            {
+                copy_eq[i] = copy_eq[i-1] ** copy_eq[i+1];
+                copy_eq = copy_eq.slice(0, i+1).concat(copy_eq.slice(i+2));
+                copy_eq = copy_eq.slice(0, i-1).concat(copy_eq.slice(i));
+                return [copy_eq, true, search_for];
+            }
         }
 
+        if (search_for === "power")
+        {
+            return [copy_eq, false, "stage 2"];
+        }
         if (search_for === "stage 2")
         {
             return [copy_eq, false, "stage 1"];
@@ -48,9 +59,9 @@ function equation_sum(equation, search_for)
     }
 }
 
-let equation = [4, "*", 2, "/", 8];
+let equation = [4, "^", 2, "+", 3, "*", 2];
 
-search_for = "stage 2"
+search_for = "power";
 
 while (true)
 {
