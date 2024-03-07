@@ -1,8 +1,6 @@
-function equation_sum(equation)
+function equation_sum(equation, search_for)
 {
     let copy_eq = equation;
-
-    let search_for = "stage 1";
 
     while (true)
     {
@@ -13,31 +11,56 @@ function equation_sum(equation)
                 copy_eq[i] = copy_eq[i-1] + copy_eq[i+1];
                 copy_eq = copy_eq.slice(0, i+1).concat(copy_eq.slice(i+2));
                 copy_eq = copy_eq.slice(0, i-1).concat(copy_eq.slice(i));
-                return [copy_eq, true];
+                return [copy_eq, true, search_for];
             }
             if (search_for === "stage 1" && equation[i] == "-")
             {
                 copy_eq[i] = copy_eq[i-1] - copy_eq[i+1];
                 copy_eq = copy_eq.slice(0, i+1).concat(copy_eq.slice(i+2));
                 copy_eq = copy_eq.slice(0, i-1).concat(copy_eq.slice(i));
-                return [copy_eq, true];
+                return [copy_eq, true, search_for];
+            }
+            if (search_for === "stage 2" && equation[i] == "*")
+            {
+                copy_eq[i] = copy_eq[i-1] * copy_eq[i+1];
+                copy_eq = copy_eq.slice(0, i+1).concat(copy_eq.slice(i+2));
+                copy_eq = copy_eq.slice(0, i-1).concat(copy_eq.slice(i));
+                return [copy_eq, true, search_for];
+            }
+            if (search_for === "stage 2" && equation[i] == "/")
+            {
+                copy_eq[i] = copy_eq[i-1] / copy_eq[i+1];
+                copy_eq = copy_eq.slice(0, i+1).concat(copy_eq.slice(i+2));
+                copy_eq = copy_eq.slice(0, i-1).concat(copy_eq.slice(i));
+                return [copy_eq, true, search_for];
             }
         }
 
-        return [copy_eq, false];
+        if (search_for === "stage 2")
+        {
+            return [copy_eq, false, "stage 1"];
+        }
+
+        if (search_for === "stage 1")
+        {
+            return [copy_eq, false, "stop"];
+        }
     }
 }
 
-let equation = [4, "-", 2, "+", 56, "+", 2];
+let equation = [4, "*", 2, "/", 8];
+
+search_for = "stage 2"
 
 while (true)
 {
-    result = equation_sum(equation);
+    result = equation_sum(equation, search_for);
+    search_for = result[2];
     if (result[1] === true)
     {
         equation = result[0];
     }
-    else
+    else if (search_for === "stop")
     {
         break;
     }
