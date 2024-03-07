@@ -83,7 +83,7 @@ function equation_sum(equation, search_for)
     }
 }
 
-let equation = [4, "*", [2, "+", 2]];
+let equation = [8,'^',[3,"+",1]];
 
 let search_for = "brackets";
 
